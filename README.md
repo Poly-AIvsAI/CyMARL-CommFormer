@@ -23,7 +23,7 @@ conda activate cymarl-commformer
 ### Package Installation
 ```
 # clone the repository
-git clone https://github.com/alexwtp/CyMARL-CommFormer.git
+git clone https://github.com/Poly-AIvsAI/CyMARL-CommFormer.git
 
 # install CyMARL-CommFormer (includes PyMARL, DIAL, CybORG and CommFormer)
 # change directory to the folder containing the cloned CyMARL-CommFormer
