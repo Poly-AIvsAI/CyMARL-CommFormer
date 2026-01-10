@@ -16,14 +16,14 @@ Codebase has been tested using Windows 11. To install, begin with a new Anaconda
 
 ### Using a terminal of your choice
 ```
-conda create -n cymarl-commformer python=3.8 -y #(3.9 also works)
+conda create -n cymarl-commformer python=3.9 -y
 conda activate cymarl-commformer
 ```
 
 ### Package Installation
 ```
 # clone the repository
-git clone https://github.com/Poly-AIvsAI/CyMARL-CommFormer.git
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu117
 
 # install CyMARL-CommFormer (includes PyMARL, DIAL, CybORG and CommFormer)
 # change directory to the folder containing the cloned CyMARL-CommFormer
