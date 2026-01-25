@@ -116,8 +116,14 @@ class CyborgEnv(MultiAgentEnv):
         max_length = max(len(sublist) for sublist in avail_actions)
         
         # pad each sublist to the maximum length with 0
-        padded_avail_actions = [sublist + [0] * (max_length - len(sublist)) for sublist in avail_actions]
-        
+        #padded_avail_actions = [sublist + [0] * (max_length - len(sublist)) for sublist in avail_actions]
+        #Changing to this from above commented line. Having problems with list + tensor mismatch so 
+        padded_avail_actions = [
+            (sublist.tolist() + [0] * (max_length - len(sublist))
+            if hasattr(sublist, "tolist")
+            else sublist) + [0] * (max_length - len(sublist))
+            for sublist in avail_actions
+        ]
         # convert to a NumPy array (optional)
         padded_avail_actions_array = np.array(padded_avail_actions)
         

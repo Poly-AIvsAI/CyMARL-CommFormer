@@ -76,6 +76,7 @@ class SimulationController(EnvironmentController):
         self.hostname_ip_map = {h: ip for ip, h in self.state.ip_addresses.items()}
         self.subnet_cidr_map = self.state.subnet_name_to_cidr
         self.end_turn_actions = scenario.get_end_turn_actions()
+        #print("IP host map in SimulationController.py: ", self.hostname_ip_map)
 
     def run_schtasks(self):
         for host in self.hosts:

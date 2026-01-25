@@ -112,6 +112,10 @@ class FileReaderScenarioGenerator(ScenarioGenerator):
         for agent_name, agent_data in scenario.agents.items():
             if 'blue' in agent_name.lower():
                 agent_data.default_actions = (Monitor, {'session': 0, 'agent': agent_name})
+        
+        # #Debugging to see if seed works!
+        # print([subnet.ip_addresses for subnet in scenario.subnets.values()])
+        # print(np_random)
         return scenario
 
     def __str__(self):
