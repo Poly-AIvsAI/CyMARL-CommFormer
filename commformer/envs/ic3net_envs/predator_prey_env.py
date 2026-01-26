@@ -174,7 +174,7 @@ class PredatorPreyEnv(gym.Env):
         debug = {'predator_locs':self.predator_loc,'prey_locs':self.prey_loc}
         return self.obs, self._get_reward(), [self.episode_over for _ in range(self.n_agents)], [debug for _ in range(self.n_agents)]
 
-    def reset(self):
+    def reset(self, seed=None):
         """
         Reset the state of the environment and returns an initial observation.
 

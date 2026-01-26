@@ -18,8 +18,8 @@ class BlueTableWrapper(BaseWrapper):
         # CyMARL - Set class vars
         self.reset() 
 
-    def reset(self):        
-        result = self.env.reset()
+    def reset(self, seed=None):        
+        result = self.env.reset(seed=seed)
         obs = result.observation
         self._process_initial_obs(obs)
         obs = self.observation_change(obs, baseline=True)

@@ -37,7 +37,7 @@ class IntListToActionWrapper(BaseWrapper):
         return result
 
     def reset(self, agent=None, seed=None):
-        result = self.env.reset(agent, seed)
+        result = self.env.reset(agent, seed=seed)
         result.action_space, result.selection_masks = self.action_space_change(result.action_space)
         self.selection_mask = result.selection_masks
         result.observation = self.observation_change(agent, result.observation)

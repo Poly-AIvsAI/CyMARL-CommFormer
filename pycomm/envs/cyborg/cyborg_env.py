@@ -15,11 +15,11 @@ from CybORG.Wrappers import MultiAgentDIALWrapper, BlueTableDIALWrapper, EnumAct
 
 class CyborgEnv(MultiAgentEnv):
 
-    def __init__(self, map_name, time_limit=100, action_limiting=False, comm_limiting=False, wrapper_type='table', use_CommFormer=False, **kwargs):
+    def __init__(self, map_name, time_limit=100, action_limiting=False, comm_limiting=False, wrapper_type='table', use_CommFormer=False, seed=None, **kwargs):
         self.action_limiting = action_limiting
         self.comm_limiting = comm_limiting
         self.episode_limit = time_limit
-        self._env = self._create_env(map_name, time_limit, wrapper_type)
+        self._env = self._create_env(map_name, time_limit, wrapper_type, seed)
         
         self.n_agents = len(self._env.agents)
         self._agent_ids = list(self._env.agents)
@@ -40,10 +40,10 @@ class CyborgEnv(MultiAgentEnv):
         self.max_hosts = max(list(len(self.get_agent_hosts(agent)) for agent in self._agent_ids))
         self.all_obs = {}
 
-    def reset(self):
+    def reset(self, seed=None):
         # Returns initial observations and states
         self.step_count = 0
-        self._obs = self._env.reset()
+        self._obs = self._env.reset(seed=seed)
         self._obs = list(self._obs.values())
         self.all_obs = {}
         self.all_obs[self.step_count] = copy.deepcopy(self._obs)
@@ -217,10 +217,10 @@ class CyborgEnv(MultiAgentEnv):
         }
         return env_info
     
-    def _wrap_env(self, env, wrapper_type):
+    def _wrap_env(self, env, wrapper_type, seed: int = None):
         try:
             if wrapper_type == 'vector':
-                return MultiAgentDIALWrapper(BlueTableDIALWrapper(EnumActionDIALWrapper(env), output_mode='vector'))
+                return MultiAgentDIALWrapper(BlueTableDIALWrapper(EnumActionDIALWrapper(env, seed=seed), output_mode='vector', seed=seed), seed=seed)
                 #return MultiAgentDIALWrapper(EnumActionDIALWrapper(BlueTableDIALWrapper(env, output_mode='vector')))
             else:
                 raise ValueError(f"Unsupported wrapper type: {wrapper_type}")
@@ -228,7 +228,7 @@ class CyborgEnv(MultiAgentEnv):
             print(f"Error: {e}")
             sys.exit()
 
-    def _create_env(self, map_name, time_limit, wrapper_type):
+    def _create_env(self, map_name, time_limit, wrapper_type, seed=None):
         # Get the directory containing cyborg
         cyborg_dir = os.path.dirname(os.path.dirname(inspect.getfile(CybORG)))
         path = cyborg_dir + f'/CybORG/Shared/Scenarios/scenario_files/{map_name}.yaml'
@@ -236,7 +236,7 @@ class CyborgEnv(MultiAgentEnv):
 
         # Make scenario from specified file
         sg = FileReaderScenarioGenerator(norm_path)
-        cyborg = CybORG(scenario_generator=sg, time_limit=time_limit)
-        env = self._wrap_env(cyborg, wrapper_type)
+        cyborg = CybORG(scenario_generator=sg, time_limit=time_limit, seed=seed)
+        env = self._wrap_env(cyborg, wrapper_type, seed=seed)
         return env
     

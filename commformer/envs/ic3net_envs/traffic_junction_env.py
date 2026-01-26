@@ -159,7 +159,7 @@ class TrafficJunctionEnv(gym.Env):
 
         return
 
-    def reset(self, epoch=None):
+    def reset(self, epoch=None, seed=None):
         """
         Reset the state of the environment and returns an initial observation.
 

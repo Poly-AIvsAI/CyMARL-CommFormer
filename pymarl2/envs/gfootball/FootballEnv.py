@@ -124,10 +124,10 @@ class GoogleFootballEnv(MultiAgentEnv):
         """Returns the total number of actions an agent could ever take."""
         return self.action_space[0].n
 
-    def reset(self):
+    def reset(self, seed=None):
         """Returns initial observations and states."""
         self.time_step = 0
-        self.obs = self.env.reset()
+        self.obs = self.env.reset(seed=seed)
 
         return self.get_obs(), self.get_global_state()
 

@@ -6,7 +6,7 @@ from CybORG.Shared import Results
 
 
 class BaseWrapper:
-    def __init__(self, env: CybORG = None):
+    def __init__(self, env: CybORG = None, seed: int = None):
         # wrapper allows changes to be made to the interface between external agents via specification of the env
         self.env = env
 

@@ -8,8 +8,8 @@ from CybORG.Shared import Results
 
 
 class EnumActionDIALWrapper(BaseWrapper):
-    def __init__(self, env: Union[type, BaseWrapper] = None):
-        super().__init__(env)
+    def __init__(self, env: Union[type, BaseWrapper] = None, seed: int = None):
+        super().__init__(env, seed=seed)
         self.possible_actions = {}
         self.action_signature = {}
         self.allowed_subnets = ['User', 'Operational']

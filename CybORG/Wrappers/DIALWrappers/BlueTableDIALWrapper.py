@@ -7,7 +7,7 @@ from CybORG.Wrappers.BaseWrapper import BaseWrapper
 from CybORG.Wrappers.TrueTableWrapper import TrueTableWrapper
 
 class BlueTableDIALWrapper(BaseWrapper):
-    def __init__(self,env=None, output_mode='table'):
+    def __init__(self,env=None, output_mode='table', seed: int = None):
         super().__init__(env)
         self.env = TrueTableWrapper(env=env)
 
@@ -18,10 +18,10 @@ class BlueTableDIALWrapper(BaseWrapper):
         self.agent_blocks = {} # DIAL
         self.block_action = False
         # CyMARL - Set class vars
-        self.reset() 
+        self.reset(seed=seed) 
 
-    def reset(self):        
-        result = self.env.reset()
+    def reset(self, seed=None):        
+        result = self.env.reset(seed=seed)
         obs = result.observation
         self._process_initial_obs(obs)
         #obs = self.observation_change(obs, baseline=True)

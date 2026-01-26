@@ -395,7 +395,7 @@ class RandomStarCraft2EnvMulti(MultiAgentEnv):
     #     self.agent_recovery = [np.where(self.agent_permutation == i)[0][0] for i in range(self.n_agents)]
     #     self.agent_recovery = np.array(self.agent_recovery)
 
-    def reset(self):
+    def reset(self, seed=None):
         """Reset the environment. Required after each full episode.
         Returns initial observations and states.
         """

@@ -35,7 +35,7 @@ class MultiAgentGymWrapper(BaseWrapper):
               seed: Optional[int] = None,
               return_info: bool = False,
               options: Optional[dict] = None) -> dict:
-        self.env.reset()
+        self.env.reset(seed=seed)
         self.dones = {agent: False for agent in self.agents}
         self.rewards = {agent: 0. for agent in self.agents}
         self.infos = {}

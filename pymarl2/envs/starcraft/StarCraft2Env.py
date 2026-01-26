@@ -337,7 +337,7 @@ class StarCraft2Env(MultiAgentEnv):
             np.transpose(np.array(list(map_info.terrain_height.data))
                 .reshape(self.map_x, self.map_y)), 1) / 255
 
-    def reset(self):
+    def reset(self, seed=None):
         """Reset the environment. Required after each full episode.
         Returns initial observations and states.
         """

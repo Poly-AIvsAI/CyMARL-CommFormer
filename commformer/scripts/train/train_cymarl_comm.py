@@ -32,8 +32,10 @@ def make_train_env(all_args):
                 action_limiting = all_args.action_limiting
                 wrapper_type = all_args.wrapper_type
                 
+                #Get the seed that was passed in (using getattr if seed doesn't exist):
+                seed = getattr(all_args, "seed", None)
                 # Pass the extracted arguments to CyborgEnv
-                env = CyborgEnv(map_name=map_name, time_limit=time_limit, action_limiting=action_limiting, wrapper_type=wrapper_type, use_CommFormer=True)
+                env = CyborgEnv(map_name=map_name, time_limit=time_limit, action_limiting=action_limiting, wrapper_type=wrapper_type, use_CommFormer=True, seed=seed)
             else:
                 print("Can not support the " +
                       all_args.env_name + " environment.")

@@ -15,7 +15,7 @@ class TrueTableWrapper(BaseWrapper):
     def reset(self, agent=None, seed=None):
         self.scanned_ips = set()  
         self.step_counter = -1
-        result = self.env.reset(agent)        
+        result = self.env.reset(agent, seed=seed)        
         result.observation = self.observation_change(result.observation, agent=agent)        
         return result      
 

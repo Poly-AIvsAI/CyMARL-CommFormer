@@ -52,7 +52,7 @@ class IntFixedFlatWrapper(BaseWrapper):
         self.password = {}
         self.password_hash = {}
         self.file = {}
-        return super(IntFixedFlatWrapper, self).reset(agent, seed)
+        return super(IntFixedFlatWrapper, self).reset(agent, seed=seed)
 
     def get_action(self, observation, action_space):
 

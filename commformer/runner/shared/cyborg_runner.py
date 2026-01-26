@@ -62,7 +62,9 @@ class CybORGRunner(Runner):
         for episode in range(episodes):
             # reset environment and buffer
             # CybORG requires a full reset each episode
-            self.warmup()
+            #Pass the seed
+            seed = getattr(self.all_args, 'seed', None)
+            self.warmup(seed=seed)
             episode_start_time = time.time()
             
             if self.use_linear_lr_decay:
@@ -155,9 +157,9 @@ class CybORGRunner(Runner):
             if episode % self.eval_interval == 0 and self.use_eval:
                 self.eval(total_num_steps, episode)
 
-    def warmup(self):
+    def warmup(self, seed=None):
         # reset env
-        obs = self.envs.reset()
+        obs = self.envs.reset(seed)
         available_actions = np.array(self.envs.get_avail_actions(0), dtype=int)
 
         # replay buffer

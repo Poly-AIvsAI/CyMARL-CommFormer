@@ -61,12 +61,12 @@ class ParallelRunner:
         for parent_conn in self.parent_conns:
             parent_conn.send(("close", None))
 
-    def reset(self):
+    def reset(self,seed=None):
         self.batch = self.new_batch()
 
         # Reset the envs
         for parent_conn in self.parent_conns:
-            parent_conn.send(("reset", None))
+            parent_conn.send(("reset", seed))
 
         pre_transition_data = {
             "state": [],

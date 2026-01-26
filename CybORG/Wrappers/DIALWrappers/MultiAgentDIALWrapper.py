@@ -13,7 +13,7 @@ from CybORG.Wrappers import BaseWrapper, OpenAIGymWrapper, BlueTableWrapper, Red
 from CybORG.Shared.CommsRewardCalculator import CommsAvailabilityRewardCalculator
 
 class MultiAgentDIALWrapper(BaseWrapper):
-    def __init__(self, env: BaseWrapper, max_steps: int = 100):
+    def __init__(self, env: BaseWrapper, max_steps: int = 100, seed: int = None):
         super().__init__(env)
         self._action_spaces = {agent: Discrete(
                 self.env.get_action_space(agent)) for agent in self.agents}
@@ -28,7 +28,7 @@ class MultiAgentDIALWrapper(BaseWrapper):
               seed: Optional[int] = None,
               return_info: bool = False,
               options: Optional[dict] = None) -> dict:
-        self.env.reset()
+        self.env.reset(seed=seed)
         self.dones = {agent: False for agent in self.agents}
         self.rewards = {agent: 0. for agent in self.agents}
         self.infos = {}

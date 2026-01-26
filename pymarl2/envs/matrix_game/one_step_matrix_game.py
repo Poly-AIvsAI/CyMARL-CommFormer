@@ -34,7 +34,7 @@ class OneStepMatrixGame(MultiAgentEnv):
         self.episode_limit = 1
 
 
-    def reset(self):
+    def reset(self, seed=None):
         """ Returns initial observations and states"""
         self.steps = 0
         return self.get_obs(), self.get_state()

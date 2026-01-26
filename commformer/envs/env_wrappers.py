@@ -209,9 +209,9 @@ class GuardSubprocVecEnv(ShareVecEnv):
         obs, rews, dones, infos = zip(*results)
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self):
+    def reset(self, seed=None):
         for remote in self.remotes:
-            remote.send(('reset', None))
+            remote.send(('reset', seed))
         obs = [remote.recv() for remote in self.remotes]
         return np.stack(obs)
 
@@ -266,9 +266,9 @@ class SubprocVecEnv(ShareVecEnv):
         obs, rews, dones, infos = zip(*results)
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self):
+    def reset(self, seed=None):
         for remote in self.remotes:
-            remote.send(('reset', None))
+            remote.send(('reset', seed))
         obs = [remote.recv() for remote in self.remotes]
         return np.stack(obs)
 
@@ -332,9 +332,9 @@ class CybORG_SubprocVecEnv(ShareVecEnv):
         obs, rews, dones, infos = zip(*results)
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self):
+    def reset(self, seed=None):
         for remote in self.remotes:
-            remote.send(('reset', None))
+            remote.send(('reset', seed))
         # CybORG returns a dictionary containing state at time t
         s_t = [remote.recv() for remote in self.remotes]
         # extract the values only from the dictionary, discarding keys
@@ -528,9 +528,9 @@ class ShareSubprocVecEnv(ShareVecEnv):
         obs, share_obs, rews, dones, infos, available_actions = zip(*results)
         return np.stack(obs), np.stack(share_obs), np.stack(rews), np.stack(dones), infos, np.stack(available_actions)
 
-    def reset(self):
+    def reset(self, seed=None):
         for remote in self.remotes:
-            remote.send(('reset', None))
+            remote.send(('reset', seed))
         results = [remote.recv() for remote in self.remotes]
         obs, share_obs, available_actions = zip(*results)
         return np.stack(obs), np.stack(share_obs), np.stack(available_actions)
@@ -616,9 +616,9 @@ class ChooseSimpleSubprocVecEnv(ShareVecEnv):
         obs, rews, dones, infos = zip(*results)
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self, reset_choose):
+    def reset(self, reset_choose, seed=None):
         for remote, choose in zip(self.remotes, reset_choose):
-            remote.send(('reset', choose))
+            remote.send(('reset', choose, seed))
         obs = [remote.recv() for remote in self.remotes]
         return np.stack(obs)
 
@@ -707,9 +707,9 @@ class ChooseSubprocVecEnv(ShareVecEnv):
         obs, share_obs, rews, dones, infos, available_actions = zip(*results)
         return np.stack(obs), np.stack(share_obs), np.stack(rews), np.stack(dones), infos, np.stack(available_actions)
 
-    def reset(self, reset_choose):
+    def reset(self, reset_choose, seed=None):
         for remote, choose in zip(self.remotes, reset_choose):
-            remote.send(('reset', choose))
+            remote.send(('reset', choose, seed))
         results = [remote.recv() for remote in self.remotes]
         obs, share_obs, available_actions = zip(*results)
         return np.stack(obs), np.stack(share_obs), np.stack(available_actions)
@@ -790,9 +790,9 @@ class ChooseGuardSubprocVecEnv(ShareVecEnv):
         obs, rews, dones, infos = zip(*results)
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self, reset_choose):
+    def reset(self, reset_choose, seed=None):
         for remote, choose in zip(self.remotes, reset_choose):
-            remote.send(('reset', choose))
+            remote.send(('reset', choose, seed))
         obs = [remote.recv() for remote in self.remotes]
         return np.stack(obs)
 
@@ -841,8 +841,8 @@ class DummyVecEnv(ShareVecEnv):
         self.actions = None
         return obs, rews, dones, infos
 
-    def reset(self):
-        obs = [env.reset() for env in self.envs]
+    def reset(self, seed=None):
+        obs = [env.reset(seed=seed) for env in self.envs]
         return np.array(obs)
 
     def close(self):
@@ -879,9 +879,9 @@ class CybORG_DummyVecEnv(ShareVecEnv):
         self.actions = None
         return np.stack(obs), np.stack(rews), np.stack(dones), infos
 
-    def reset(self):
+    def reset(self, seed=None):
         # CybORG returns a list with a tensor in this case
-        s_t = [env.reset() for env in self.envs]
+        s_t = [env.reset(seed=seed) for env in self.envs]
         s_t = np.array(s_t[0])
         return s_t
 
@@ -935,8 +935,8 @@ class ShareDummyVecEnv(ShareVecEnv):
 
         return obs, share_obs, rews, dones, infos, available_actions
 
-    def reset(self):
-        results = [env.reset() for env in self.envs]
+    def reset(self, seed=None):
+        results = [env.reset(seed=seed) for env in self.envs]
         obs, share_obs, available_actions = map(np.array, zip(*results))
         return obs, share_obs, available_actions
 
@@ -976,8 +976,8 @@ class ChooseDummyVecEnv(ShareVecEnv):
         self.actions = None
         return obs, share_obs, rews, dones, infos, available_actions
 
-    def reset(self, reset_choose):
-        results = [env.reset(choose)
+    def reset(self, reset_choose, seed=None):
+        results = [env.reset(choose, seed=seed)
                    for (env, choose) in zip(self.envs, reset_choose)]
         obs, share_obs, available_actions = map(np.array, zip(*results))
         return obs, share_obs, available_actions
@@ -1012,8 +1012,8 @@ class ChooseSimpleDummyVecEnv(ShareVecEnv):
         self.actions = None
         return obs, rews, dones, infos
 
-    def reset(self, reset_choose):
-        obs = [env.reset(choose)
+    def reset(self, reset_choose, seed=None):
+        obs = [env.reset(choose, seed=seed)
                    for (env, choose) in zip(self.envs, reset_choose)]
         return np.array(obs)
 

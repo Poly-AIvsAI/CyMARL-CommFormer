@@ -102,9 +102,9 @@ class CyborgMultiAgentEnv(MultiAgentEnv):
         # TODO: This is only suitable for a discrete 1 dimensional action space for each agent
         return flatdim(self.longest_action_space)
 
-    def reset(self):
+    def reset(self, seed=None):
         """ Returns initial observations and states"""
-        self._obs = self._env.reset()
+        self._obs = self._env.reset(seed=seed)
         self._obs = list(self._obs.values())
         self._elapsed_steps = 0
 

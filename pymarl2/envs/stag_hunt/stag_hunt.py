@@ -165,7 +165,7 @@ class StagHunt(MultiAgentEnv):
         self.scaling = 5
 
     # ---------- INTERACTION METHODS -----------------------------------------------------------------------------------
-    def reset(self):
+    def reset(self, seed=None):
         # Reset old episode
         self.prey_alive.fill(1)
         self.agents_not_frozen.fill(1)

@@ -42,7 +42,7 @@ class OpenAIGymWrapper(Env, BaseWrapper):
         return self.env.get_attr('np_random')
 
     def reset(self, *, seed: Optional[int] = None, return_info: bool = False, options: Optional[dict] = None):
-        result = self.env.reset(self.agent_name, seed)
+        result = self.env.reset(self.agent_name, seed=seed)
         result.action_space = self.action_space_change(result.action_space)
         result.observation = self.observation_change(self.agent_name, result.observation)
         if return_info:
