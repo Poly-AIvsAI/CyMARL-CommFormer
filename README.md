@@ -23,11 +23,10 @@ conda activate cymarl-commformer
 ### Package Installation
 ```
 # clone the repository
-pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu117
+git clone https://github.com/Poly-AIvsAI/CyMARL-CommFormer
 
-# install CyMARL-CommFormer (includes PyMARL, DIAL, CybORG and CommFormer)
-# change directory to the folder containing the cloned CyMARL-CommFormer
-pip install -r requirements.txt
+# install the required dependencies
+pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu117
 ```
 To verify the installation of CyMARL-CommFormer, run an experiement using the command line below:
 ```
