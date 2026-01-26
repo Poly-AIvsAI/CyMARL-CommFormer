@@ -155,7 +155,7 @@ class CybORGRunner(Runner):
 
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                self.eval(total_num_steps, episode)
+                self.eval(total_num_steps, episode, seed=seed)
 
     def warmup(self, seed=None):
         # reset env
@@ -224,10 +224,10 @@ class CybORGRunner(Runner):
         self.buffer.insert(share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs, values, rewards, masks, infos, available_actions=available_actions)
 
     @torch.no_grad()
-    def eval(self, total_num_steps, last_training_episode):
+    def eval(self, total_num_steps, last_training_episode, seed=None):
         # reset eval env and determine available actions
         eval_episode_rewards = []
-        eval_obs = self.eval_envs.reset()
+        eval_obs = self.eval_envs.reset(seed=seed)
         eval_available_actions = np.array(self.eval_envs.get_avail_actions(0), dtype=int)
         
         # initialize eval buffers, used to output actions to file

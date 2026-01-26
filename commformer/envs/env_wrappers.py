@@ -409,7 +409,7 @@ def cyborg_worker(remote, parent_remote, env_fn_wrapper):
             remote.send((obs, reward, done, info))
 
         elif cmd == "reset":
-            state = env.reset()
+            state = env.reset(seed=data)
             remote.send({
                 "state": state
             })

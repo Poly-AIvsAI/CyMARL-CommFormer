@@ -98,6 +98,12 @@ class EnvironmentController(CybORGLogger):
         self.action = {}
         self.observation = {}
         self.step_count = 0
+
+        #For seeing who called this (limit is up to 15 objects ago in the hierarchy)
+        # import traceback
+        # print("RESET CALLED WITH SEED:", np_random is not None)
+        # traceback.print_stack(limit=15)
+
         if np_random is not None:
             self.np_random = np_random
         scenario = self.scenario_generator.create_scenario(self.np_random)
